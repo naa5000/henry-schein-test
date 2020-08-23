@@ -17,7 +17,7 @@ Thanks!
 Edit:
 I completed this challenge Friday night and didn't give it another thought throughout Saturday, then this morning (Sunday), I woke up thinking about this problem and realized another solution might have been to simply parse by commas in the loop, then check if what was between the commas either started and ended with quotes, or could parse into an int. 
 
-So, a second solution would look somethin like this:
+So, a second solution would look something like this:
 
     private String parseCsv(String csvData) {
 		if (csvData == null) {
