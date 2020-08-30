@@ -1,66 +1,43 @@
 # henry-schein-test
 
-Because the app is so small, I didn't bother to create proper MVC directories.
-I didn't use String.split(), because my auto-fill says it takes a regex parameter, which is off-limits.
-I'm certain there are other and better ways to do this, but because I couldn't use regex, this was the simplest solution I came up with during my short time tonight.
+EDIT: Cleaned up and added problem section and notes for for MX. 
 
-post this body into postman using this url: http://localHost:8080/parse
+For MX:
+	This problem was difficult because the csv to be parsed has many different types of separaters that seem inconsistant with eachother and the resources were limited.
+	Test by running the app, then post this body into postman using the url: http://localHost:8080/parsePatientCsv
 
-    "Patient Name","SSN","Age","Phone Number","Status"
-    "Prescott, Zeke","542-51-6641",21,"801-555-2134","Opratory=2,PCP=1"
-    "Goldstein, Bucky","635-45-1254",42,"435-555-1541","Opratory=1,PCP=1"
-    "Vox, Bono","414-45-1475",51,"801-555-2100","Opratory=3,PCP=2"
-
-Thanks!
+    	"Patient Name","SSN","Age","Phone Number","Status"
+    	"Prescott, Zeke","542-51-6641",21,"801-555-2134","Opratory=2,PCP=1"
+    	"Goldstein, Bucky","635-45-1254",42,"435-555-1541","Opratory=1,PCP=1"
+    	"Vox, Bono","414-45-1475",51,"801-555-2100","Opratory=3,PCP=2"
 
 
-Edit:
-I completed this challenge Friday night and didn't give it another thought throughout Saturday, then this morning (Sunday), I woke up thinking about this problem and realized another solution might have been to simply parse by commas in the loop, then check if what was between the commas either started and ended with quotes, or could parse into an int. 
+PROBLEM:
 
-So, a second solution would look something like this:
+	Using best practices complete the following task:
+	Create a restful web service that takes a string of CSV data as input and returns the data reformatted as
+	shown below without using regular expressions or a 3 rd party CSV parser library.
+	Example input string:
+	
+	"Patient Name","SSN","Age","Phone Number","Status"
+	"Prescott, Zeke","542-51-6641",21,"801-555-2134","Opratory=2,PCP=1"
+	"Goldstein, Bucky","635-45-1254",42,"435-555-1541","Opratory=1,PCP=1"
+	"Vox, Bono","414-45-1475",51,"801-555-2100","Opratory=3,PCP=2"
+	
+	Return string for the above sample input
+	
+	[Patient Name] [SSN] [Age] [Phone Number] [Status]
+	[Prescott, Zeke] [542-51-6641] [21] [801-555-2134] [Opratory=2,PCP=1]
+	[Goldstein, Bucky] [635-45-1254] [42] [435-555-1541] [Opratory=1,PCP=1]
+	[Vox, Bono] [414-45-1475] [51] [801-555-2100] [Opratory=3,PCP=2]
 
-    private String parseCsv(String csvData) {
-		if (csvData == null) {
-			return "";
-		}
-		String returnString = "";
+SOLUTION:
 
-		csvData = csvData.replace("\r\n", "\n").trim() + ",";
-		
-		String returnString = "";
-		int index = 0;
-		for (int i = 0; i < csvData.length(); i++) {
-			if (csvData.charAt(i) == ',' || csvData.charAt(i) == '\n') {
-				String segment = csvData.substring(index, i);
-				if (segment.startsWith("\"") && segment.endsWith("\"")) {
-					returnString += "[" + segment + "]";
-					index = i + 1;
-				} else if (isInt(segment)) {
-					returnString += "[" + segment + "]";
-					index = i + 1;
-				}
+	Because the app is so small, I didn't bother to create proper MVC directories or add Unit tests
+	I didn't use String.split(), because Java documentation says it technically takes a regex parameter, which is off-limits.
+	I'm certain there are other and better ways to do this, but because I couldn't use regex, this was the simplest solution I came up with in the provided time.
 
-			}
-			// Add the newline character here
-			if (csvData.charAt(i) == '\n') {
-				returnString += "\n";
-			}
-		}
-		returnString = returnString.replace("\"", "");
-     }
-     
-     private boolean isInt(String s) {
-	    if (s == null) {
-	        return false;
-	    }
-	    try {
-	        int i = Integer.parseInt(s);
-	    } catch (NumberFormatException nfe) {
-	        return false;
-	    }
-	    return true;
-	}
-    
-    Anyhow. Either solution should work, but the second would be better than the first.
-    
-    Thanks again!
+	Thanks!
+
+
+
